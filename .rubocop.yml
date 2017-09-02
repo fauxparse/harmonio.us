@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*.rb'
+
+Metrics/LineLength:
+  IgnoredPatterns: ['\A\s*#']
+
+Style/Documentation:
+  Enabled: false
