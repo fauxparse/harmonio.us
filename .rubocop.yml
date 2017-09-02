@@ -4,6 +4,9 @@ AllCops:
     - 'db/schema.rb'
     - 'node_modules/**/*.rb'
 
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
 Metrics/LineLength:
   IgnoredPatterns: ['\A\s*#']
 
