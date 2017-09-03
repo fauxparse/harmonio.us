@@ -1,8 +1,6 @@
 FactoryGirl.define do
-  sequence(:member_name) { Faker::Name.unique }
-
   factory :member do
-    name { generate(:member_name) }
+    name { Faker::Name.unique.name }
     team
 
     trait :admin do
