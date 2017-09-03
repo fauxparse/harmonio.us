@@ -1,26 +1,35 @@
-// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
-// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
-// of the page.
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import Authentication from './components/authentication'
+import App from './components/app'
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
+import {
+  ApolloProvider,
+  createNetworkInterface,
+  ApolloClient
+} from 'react-apollo'
 
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
+const token = document
+  .querySelector('[name="csrf-token"]')
+  .getAttribute('content')
+const networkInterface = createNetworkInterface({
+  uri: '/graphql',
+  opts: {
+    credentials: 'same-origin',
+    headers: {
+      'X-CSRF-Token': token
+    }
+  }
+})
+const client = new ApolloClient({ networkInterface })
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
+    <ApolloProvider client={client}>
+      <Authentication>
+        <App />
+      </Authentication>
+    </ApolloProvider>,
+    document.body.appendChild(document.createElement('div'))
   )
 })
