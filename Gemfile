@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'graphql'
 gem 'sorcery'
 gem 'stringex'
 
@@ -40,6 +41,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'graphiql-rails'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
