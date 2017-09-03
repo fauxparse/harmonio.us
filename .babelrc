@@ -5,15 +5,23 @@
       {
         "modules": false,
         "targets": {
-          "node": "current"
+          "browsers": "> 1%",
+          "uglify": true
         },
-        "useBuiltIns": true
+        "forceAllTransforms": true
       }
     ],
     "react"
   ],
   "plugins": [
     "syntax-dynamic-import",
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ],
     "transform-object-rest-spread",
     [
       "transform-class-properties",
