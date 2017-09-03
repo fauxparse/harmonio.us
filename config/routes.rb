@@ -3,4 +3,6 @@ Rails.application.routes.draw do
     if Rails.env.development?
 
   post '/graphql', to: 'graphql#execute'
+
+  root to: 'application#index'
 end
