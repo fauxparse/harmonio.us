@@ -4,5 +4,7 @@ Rails.application.routes.draw do
 
   post '/graphql', to: 'graphql#execute'
 
+  match '/auth/:provider/callback' => 'oauth#callback', via: %i[get post]
+
   root to: 'application#index'
 end

@@ -30,7 +30,12 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'webpacker', '>= 3.0'
 
+gem 'figaro'
 gem 'graphql'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
 gem 'sorcery'
 gem 'stringex'
 

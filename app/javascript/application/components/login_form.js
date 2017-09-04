@@ -42,6 +42,11 @@ class LoginForm extends React.Component {
           </div>
           <button type="submit">Log in</button>
         </form>
+        <ul>
+          <li><a href="/auth/facebook">Log in with Facebook</a></li>
+          <li><a href="/auth/google">Log in with Google</a></li>
+          <li><a href="/auth/twitter">Log in with Twitter</a></li>
+        </ul>
       </div>
     )
   }
