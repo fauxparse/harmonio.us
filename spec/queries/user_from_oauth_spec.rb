@@ -5,12 +5,14 @@ describe UserFromOauth do
   let(:current_user) { nil }
   let(:auth_hash) { double }
   let(:auth_info) { double }
-  let(:email) { Faker::Internet.unique.email }
+  let(:name) { Faker::Name.unique.name }
+  let(:email) { Faker::Internet.unique.email(name) }
 
   before do
     allow(auth_hash).to receive(:provider).and_return provider
     allow(auth_hash).to receive(:uid).and_return uid
     allow(auth_hash).to receive(:info).and_return auth_info
+    allow(auth_info).to receive(:name).and_return name
     allow(auth_info).to receive(:email).and_return email
   end
 
@@ -18,6 +20,7 @@ describe UserFromOauth do
     context 'when there are no matching users' do
       it 'creates a user' do
         expect { query.user }.to change(User, :count).by(1)
+        expect(query.user.name).to eq name
         expect(query.user.email).to eq email
       end
 
@@ -37,7 +40,9 @@ describe UserFromOauth do
 
       it 'does not create a user' do
         expect { query.user }.not_to change(User, :count)
+        expect(query.user.name).to eq existing_user.name
         expect(query.user.email).to eq existing_user.email
+        expect(query.user.email).not_to eq email
       end
 
       it 'does not create an identity record' do

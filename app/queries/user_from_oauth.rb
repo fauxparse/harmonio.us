@@ -27,6 +27,10 @@ class UserFromOauth
     auth_hash.uid
   end
 
+  def name
+    auth_hash.info.name
+  end
+
   def email
     auth_hash.info.email
   end
@@ -36,6 +40,6 @@ class UserFromOauth
       current_user ||
       Identity.find_by(provider: provider, uid: uid).try(:user) ||
       User.find_by(email: email) ||
-      User.create!(email: email)
+      User.create!(name: name, email: email)
   end
 end

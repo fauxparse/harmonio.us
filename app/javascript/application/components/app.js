@@ -10,11 +10,12 @@ export default class App extends React.Component {
 
   render() {
     const { session } = this.context
+    const { name, email } = session.user || {}
 
     return (
       <div className="application">
         🐸
-        {session.user.email}
+        {name || email}
         <button onClick={session.logOut}>Log out</button>
       </div>
     )

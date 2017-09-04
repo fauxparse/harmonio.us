@@ -60,6 +60,7 @@ export const SESSION_FRAGMENT = gql`
   fragment SessionData on Session {
     user {
       id
+      name
       email
     }
     errors
