@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904210314) do
+ActiveRecord::Schema.define(version: 20170905204955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(version: 20170904210314) do
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["team_id", "slug"], name: "index_members_on_team_id_and_slug", unique: true
     t.index ["team_id"], name: "index_members_on_team_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -57,4 +59,5 @@ ActiveRecord::Schema.define(version: 20170904210314) do
 
   add_foreign_key "identities", "users", on_delete: :cascade
   add_foreign_key "members", "teams", on_delete: :cascade
+  add_foreign_key "members", "users", on_delete: :cascade
 end

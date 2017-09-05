@@ -35,4 +35,65 @@ RSpec.describe Member, type: :model do
       end
     end
   end
+
+  context 'who is a registered user' do
+    subject(:member) { create(:member, :registered, team: team) }
+    before do
+      5.times { create(:member, team: team) }
+    end
+
+    it 'cannot remove the user' do
+      member.user = nil
+      expect(member).not_to be_valid
+      expect(member).to have_exactly(1).error_on(:user)
+      expect(member.errors_on(:user)).to include(/at least one registered/)
+    end
+
+    context 'when there are other registered users on the team' do
+      before { create(:member, :registered, team: team) }
+
+      it 'can remove the user' do
+        member.user = nil
+        expect(member).to be_valid
+      end
+    end
+  end
+
+  context 'with admin privileges' do
+    subject(:member) { build(:member, :admin, user: user, team: team) }
+    let(:user) { create(:user) }
+
+    context 'who is not a registered user' do
+      let(:user) { nil }
+
+      it 'is invalid' do
+        expect(member).not_to be_valid
+        expect(member).to have_exactly(1).error_on(:user)
+        expect(member.errors_on(:user)).to include(/must be a registered user/)
+      end
+    end
+
+    context 'who is the only admin on a team' do
+      before { member.save! }
+
+      it 'cannot remove the admin flag' do
+        member.admin = false
+        expect(member).not_to be_valid
+        expect(member).to have_exactly(1).error_on(:admin)
+        expect(member.errors_on(:admin)).to include(/at least one admin/)
+      end
+    end
+
+    context 'when there are other admins on the team' do
+      before do
+        member.save!
+        create(:member, :admin, :registered, team: team)
+      end
+
+      it 'can remove the admin flag' do
+        member.admin = false
+        expect(member).to be_valid
+      end
+    end
+  end
 end
