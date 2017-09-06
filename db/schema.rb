@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170902022019) do
+ActiveRecord::Schema.define(version: 20170905204955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "identities", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "provider", limit: 64
+    t.string "uid", limit: 128
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
+    t.index ["user_id", "provider"], name: "index_identities_on_user_id_and_provider", unique: true
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.bigint "team_id"
+    t.string "name", limit: 128
+    t.string "slug", limit: 64
+    t.boolean "admin", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["team_id", "slug"], name: "index_members_on_team_id_and_slug", unique: true
+    t.index ["team_id"], name: "index_members_on_team_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
 
   create_table "teams", force: :cascade do |t|
     t.string "name", limit: 64
@@ -23,4 +47,17 @@ ActiveRecord::Schema.define(version: 20170902022019) do
     t.index ["slug"], name: "index_teams_on_slug", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", limit: 128
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "identities", "users", on_delete: :cascade
+  add_foreign_key "members", "teams", on_delete: :cascade
+  add_foreign_key "members", "users", on_delete: :cascade
 end

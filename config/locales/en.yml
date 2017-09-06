@@ -30,4 +30,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  login:
+    failed: 'Sorry, we couldn’t log you in.'
+
+  activerecord:
+    errors:
+      models:
+        member:
+          attributes:
+            user:
+              blank: 'An admin must be a registered user'
+              cannot_remove_last_user: 'A team must have at least one registered user'
+            admin:
+              cannot_remove_last_admin: 'A team must have at least one admin member'

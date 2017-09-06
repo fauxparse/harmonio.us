@@ -2,13 +2,20 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
-    - 'node_modules/**/*.rb'
+    - 'node_modules/**/*'
 
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
 
 Metrics/LineLength:
   IgnoredPatterns: ['\A\s*#']
 
 Style/Documentation:
+  Enabled: false
+
+Style/Lambda:
   Enabled: false
