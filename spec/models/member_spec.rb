@@ -42,6 +42,8 @@ RSpec.describe Member, type: :model do
       5.times { create(:member, team: team) }
     end
 
+    it { is_expected.to be_registered }
+
     it 'cannot remove the user' do
       member.user = nil
       expect(member).not_to be_valid

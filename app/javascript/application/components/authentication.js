@@ -30,13 +30,18 @@ class Authentication extends React.Component {
     const { loading, session = {}, children } = this.props
     return (
       <div className="authentication">
-        {session.user ? children : <LoginForm loading={loading} logIn={this._logIn} />}
+        {loading
+          ? <div className="loading"><span>Loading…</span></div>
+          : session.user
+              ? children
+              : <LoginForm logIn={this._logIn} />}
       </div>
     )
   }
 
   _logIn = async (email, password) => {
     const { client } = this.props
+    client.resetStore()
     await client.mutate({
       mutation: LOGIN_MUTATION,
       variables: { email, password },
@@ -62,6 +67,15 @@ export const SESSION_FRAGMENT = gql`
       id
       name
       email
+      memberships {
+        id
+        admin
+        team {
+          id
+          name
+          slug
+        }
+      }
     }
     errors
   }

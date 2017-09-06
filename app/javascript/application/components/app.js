@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { SessionShape } from './authentication'
+import TeamList from './team_list'
 
 export default class App extends React.Component {
   static contextTypes = {
@@ -14,9 +15,13 @@ export default class App extends React.Component {
 
     return (
       <div className="application">
-        🐸
-        {name || email}
-        <button onClick={session.logOut}>Log out</button>
+        <header>
+          <span>
+            {name || email}
+          </span>
+          <button onClick={session.logOut}>Log out</button>
+        </header>
+        <TeamList />
       </div>
     )
   }

@@ -14,6 +14,10 @@ class Member < ApplicationRecord
   scope :admin, -> { where(admin: true) }
   scope :registered, -> { where.not(user_id: nil) }
 
+  def registered?
+    user_id.present?
+  end
+
   private
 
   def cannot_remove_last_admin

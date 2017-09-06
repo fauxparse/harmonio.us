@@ -6,7 +6,6 @@ import { graphql, gql } from 'react-apollo'
 
 class LoginForm extends React.Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
     logIn: PropTypes.func.isRequired
   }
 
@@ -16,11 +15,10 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const { loading } = this.props
     const { email, password } = this.state
 
     return (
-      <div className={classNames('login-form', { loading })}>
+      <div className="login-form">
         <form onSubmit={e => this._logIn(e)}>
           <div className="field">
             <label>Email</label>
