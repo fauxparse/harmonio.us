@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Authentication from './components/authentication'
 import App from './components/app'
 
@@ -26,9 +27,11 @@ const client = new ApolloClient({ networkInterface })
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <ApolloProvider client={client}>
-      <Authentication>
-        <App />
-      </Authentication>
+      <Router>
+        <Authentication>
+          <App />
+        </Authentication>
+      </Router>
     </ApolloProvider>,
     document.body.appendChild(document.createElement('div'))
   )

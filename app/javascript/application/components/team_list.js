@@ -2,19 +2,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { graphql, gql } from 'react-apollo'
+import { Route, Link } from 'react-router-dom'
 
 class TeamList extends React.Component {
   render() {
-    const { data: { loading, teams } } = this.props
+    const { data: { loading, teams }, match: { path } } = this.props
 
     return (
-      <ul className="teams">
-        {!loading && teams.map(({ id, name }) => (
-          <li key={id}>
-            {name}
-          </li>
-        ))}
-      </ul>
+      <section className="team-list">
+        <ul className="teams">
+          {!loading &&
+            teams.map(({ id, name, slug }) => (
+              <li key={id}>
+                <Link to={`${path}/${slug}`}>{name}</Link>
+              </li>
+            ))}
+        </ul>
+      </section>
     )
   }
 }
@@ -29,4 +33,6 @@ const TEAMS_QUERY = gql`
   }
 `
 
-export default graphql(TEAMS_QUERY, { options: { notifyOnNetworkStatusChange: true } })(TeamList)
+export default graphql(TEAMS_QUERY, {
+  options: { notifyOnNetworkStatusChange: true }
+})(TeamList)

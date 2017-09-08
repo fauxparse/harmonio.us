@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import { Switch, Route, Redirect, Link } from 'react-router-dom'
 import { SessionShape } from './authentication'
-import TeamList from './team_list'
+import Teams from './teams'
 
 export default class App extends React.Component {
   static contextTypes = {
@@ -21,7 +22,11 @@ export default class App extends React.Component {
           </span>
           <button onClick={session.logOut}>Log out</button>
         </header>
-        <TeamList />
+        <Switch>
+          <Route path="/teams" component={Teams} />
+          <Redirect from="/" to="/teams" />
+          <Redirect to="/" />
+        </Switch>
       </div>
     )
   }

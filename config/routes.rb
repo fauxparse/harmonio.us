@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback' => 'oauth#callback', via: %i[get post]
 
   root to: 'application#index'
+  get '*anything', to: 'application#index'
 end

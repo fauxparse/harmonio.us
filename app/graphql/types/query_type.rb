@@ -16,5 +16,14 @@ module Types
         user ? user.memberships.includes(:team).map(&:team) : []
       }
     end
+
+    field :team, TeamType do
+      description 'A team'
+      argument :id, types.ID
+      resolve ->(_obj, args, ctx) {
+        user = ctx[:authenticator].current_user
+        user && user.teams.find_by(slug: args[:id])
+      }
+    end
   end
 end
