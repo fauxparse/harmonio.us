@@ -36,6 +36,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
+gem 'sass-material-colors'
 gem 'sorcery'
 gem 'stringex'
 
