@@ -16,7 +16,23 @@
   }
 
   .oauth {
-    padding: $base-spacing 0;
+    margin: $base-spacing 0 0;
+    padding: $small-spacing  $base-spacing $base-spacing 0;
+    position: relative;
+
+    &::before {
+      @include position(absolute, 0em (-$base-spacing) null 0em);
+      border-top: $base-border;
+      content: '';
+      display: block;
+    }
+
+    p {
+      color: $secondary-text-color;
+      font-size: modular-scale(-1);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
     ul {
       align-items: center;
@@ -78,8 +94,13 @@
       transform: translateY(calc(50vh - #{$keyline} - 2rem));
 
       .logo {
-        transform: translateX(calc(13rem - #{$keyline} - 1.25em));
+        transform: translateX(calc(13rem - #{$keyline} + 1.75rem));
       }
+    }
+
+    .oauth::before {
+      right: auto;
+      width: 2em;
     }
   }
 }

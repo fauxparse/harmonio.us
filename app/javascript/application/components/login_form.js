@@ -5,11 +5,13 @@ import classNames from 'classnames'
 import { graphql, gql } from 'react-apollo'
 import { Facebook, Google, Twitter } from '../icons'
 import Logo from './logo'
+import TextField from './text_field'
 
 class LoginForm extends React.Component {
   static propTypes = {
     logIn: PropTypes.func.isRequired,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    errors: PropTypes.arrayOf(PropTypes.string)
   }
 
   state = {
@@ -19,6 +21,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    const { errors = [] } = this.props
     const { email, password } = this.state
     const loading = this.state.loading || this.props.loading
 
@@ -30,27 +33,30 @@ class LoginForm extends React.Component {
         />
         <section>
           <form onSubmit={e => this._logIn(e)}>
-            <p>
-              Please log in to continue.
-            </p>
-            <div className="field">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={e => this.setState({ email: e.target.value })}
-              />
-            </div>
-            <div className="field">
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={e => this.setState({ password: e.target.value })}
-              />
-            </div>
+            {errors.length
+              ? errors.map(error =>
+                  <p key={error}>
+                    {error}
+                  </p>
+                )
+              : <p>Please log in to continue.</p>}
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              value={email}
+              required
+              onChange={e => this.setState({ email: e.target.value })}
+              autoFocus
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              value={password}
+              required
+              onChange={e => this.setState({ password: e.target.value })}
+            />
             <button type="submit">Log in</button>
           </form>
           <section className="oauth">
@@ -71,7 +77,11 @@ class LoginForm extends React.Component {
                 </a>
               </li>
               <li>
-                <a rel="twitter" href="/auth/twitter" title="Log in with Twitter">
+                <a
+                  rel="twitter"
+                  href="/auth/twitter"
+                  title="Log in with Twitter"
+                >
                   <Twitter />
                 </a>
               </li>

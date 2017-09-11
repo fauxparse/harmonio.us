@@ -35,13 +35,13 @@ class Authentication extends React.Component {
   }
 
   render() {
-    const { session = {}, children } = this.props
+    const { session: { user, errors } = {}, children } = this.props
     const loading = this.props.loading || this.state.loading
     return (
       <div className="authentication">
-        {session.user
+        {user
           ? children
-          : <LoginForm logIn={this._logIn} loading={loading} />}
+          : <LoginForm logIn={this._logIn} loading={loading} errors={errors} />}
       </div>
     )
   }
