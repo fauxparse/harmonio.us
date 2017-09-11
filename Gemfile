@@ -40,6 +40,7 @@ gem 'sass-material-colors'
 gem 'sorcery'
 gem 'stringex'
 
+gem 'autoprefixer-rails'
 gem 'bitters'
 gem 'bourbon'
 gem 'neat'

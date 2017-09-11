@@ -17,6 +17,10 @@ class Authentication extends React.Component {
     session: SessionShape
   }
 
+  state = {
+    loading: true
+  }
+
   getChildContext() {
     return {
       session: {
@@ -26,15 +30,18 @@ class Authentication extends React.Component {
     }
   }
 
+  componentDidMount() {
+    setTimeout(() => this.setState({ loading: false }), 1000)
+  }
+
   render() {
-    const { loading, session = {}, children } = this.props
+    const { session = {}, children } = this.props
+    const loading = this.props.loading || this.state.loading
     return (
       <div className="authentication">
-        {loading
-          ? <div className="loading"><span>Loading…</span></div>
-          : session.user
-              ? children
-              : <LoginForm logIn={this._logIn} />}
+        {session.user
+          ? children
+          : <LoginForm logIn={this._logIn} loading={loading} />}
       </div>
     )
   }

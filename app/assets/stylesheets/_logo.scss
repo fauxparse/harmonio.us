@@ -1,0 +1,82 @@
+.logo {
+  @include size(4em);
+  display: block;
+
+  circle {
+    fill: $accent-color;
+  }
+
+  g {
+    fill: white;
+    transition: opacity $slow-duration $base-timing, transform $slow-duration $ease-in-back;
+  }
+
+  .plus {
+    transition: transform $slow-duration $ease-out-back;
+
+    g:nth-child(1) { opacity: 0.4; }
+    g:nth-child(2) { opacity: 0.4; }
+    g:nth-child(3) { opacity: 0.5; }
+    g:nth-child(4) { opacity: 0.6; }
+    g:nth-child(5) { opacity: 0.6; }
+  }
+
+  .one {
+    opacity: 1;
+    transition: opacity $slow-duration $base-timing $slow-duration, transform $slow-duration $ease-out-back $slow-duration;
+  }
+
+  &.loading {
+    .plus {
+      transform: translateX(0.5em);
+      transition-delay: $slow-duration;
+
+      g:nth-child(1),
+      g:nth-child(5) {
+        transition-delay: 0;
+      }
+
+      g:nth-child(2),
+      g:nth-child(3),
+      g:nth-child(4) {
+        transition-delay: $slow-duration;
+      }
+
+      g:nth-child(1) { opacity: 0; transform: translateY(-1em); }
+      g:nth-child(2) { opacity: 1; transform: translateX(-0.25em); }
+      g:nth-child(3) { opacity: 1; }
+      g:nth-child(4) { opacity: 1; transform: translateX(0.25em); }
+      g:nth-child(5) { opacity: 0; transform: translateY(1em); }
+
+      g:nth-child(2) rect,
+      g:nth-child(3) rect,
+      g:nth-child(4) rect {
+        animation: spinner-throb 1.4s infinite ease-in-out both;
+        transform-origin: 50% 50%;
+      }
+
+      g:nth-child(2) rect {
+        animation-delay: -0.32s;
+      }
+
+      g:nth-child(3) rect {
+        animation-delay: -0.16s;
+      }
+    }
+
+    .one {
+      opacity: 0;
+      transform: translateY(-4em);
+      transition: opacity $slow-duration $base-timing $slow-duration, transform $slow-duration $ease-out-back $slow-duration;
+    }
+  }
+}
+
+@keyframes spinner-throb {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}

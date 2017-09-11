@@ -1,0 +1,85 @@
+.login-form {
+  @include position(fixed, 0rem null null 0rem);
+  @include size(100%);
+  overflow-y: auto;
+  padding: $base-spacing $base-spacing $base-spacing $keyline;
+  transition: transform 350ms $base-timing 25ms;
+
+  .logo {
+    margin: 0 0 $base-spacing -0.75rem;
+    transition: transform 275ms $base-timing;
+  }
+
+  > section {
+    opacity: 1;
+    transition: opacity $base-duration $base-timing 75ms;
+  }
+
+  .oauth {
+    padding: $base-spacing 0;
+
+    ul {
+      align-items: center;
+      display: flex;
+      justify-content: flex-start;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      @include size(2em);
+      background: $action-color;
+      border-radius: 50%;
+      color: $dark-background-primary-text-color;
+      display: block;
+      margin-right: 0.5em;
+      padding: 0.25em;
+
+      svg {
+        @include size(1.5em);
+        display: block;
+      }
+
+      path {
+        fill: currentColor;
+        stroke: none;
+      }
+
+      @each $name, $color in $brand-colors {
+        &[rel="#{$name}"] {
+          @include focus-outline($color);
+          background-color: $color;
+        }
+      }
+    }
+  }
+
+  &.loading {
+    transform: translateY(calc(50vh - #{$base-spacing} - 2rem));
+    transition: transform 325ms $base-timing;
+
+    .logo {
+      transform: translateX(calc(50vw - #{$keyline} - 1.25em));
+      transition: transform 325ms $base-timing 50ms;
+    }
+
+    > section {
+      opacity: 0;
+      transition: opacity ($base-duration / 2) $base-timing 0ms;
+    }
+  }
+
+  @media (min-width: 26rem) {
+    left: calc(50% - 16rem);
+    padding-top: $keyline;
+    width: 26rem;
+
+    &.loading {
+      transform: translateY(calc(50vh - #{$keyline} - 2rem));
+
+      .logo {
+        transform: translateX(calc(13rem - #{$keyline} - 1.25em));
+      }
+    }
+  }
+}
