@@ -78,4 +78,9 @@ input:-webkit-autofill:active {
   [role='button'] {
     margin: 0 ($small-spacing / 2);
   }
+
+  span {
+    color: $secondary-text-color;
+    font-size: 100%;
+  }
 }

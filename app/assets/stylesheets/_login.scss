@@ -12,11 +12,36 @@
 
   > section {
     opacity: 1;
+    position: relative;
     transition: opacity $base-duration $base-timing 75ms;
   }
 
+  .forms {
+    transition: opacity $base-duration $base-timing 75ms, height $slow-duration $base-timing;
+
+    form {
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      top: 0;
+      transform: translateX(0%);
+      transition: transform $slow-duration $base-timing, opacity $base-duration $base-timing $base-duration;
+      width: 100%;
+    }
+
+    form[aria-hidden='true'] {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: transform $slow-duration $base-timing, opacity $base-duration $base-timing;
+    }
+
+    form[aria-hidden='false'] ~ form[aria-hidden='true'] {
+      transform: translateX(100%);
+    }
+  }
+
   .oauth {
-    margin: $base-spacing 0 0;
+    margin: 0;
     padding: $small-spacing  $base-spacing $base-spacing 0;
     position: relative;
 

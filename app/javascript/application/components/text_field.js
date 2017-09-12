@@ -7,6 +7,7 @@ export default class TextField extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    id: PropTypes.string,
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     required: PropTypes.bool.isRequired,
@@ -46,12 +47,12 @@ export default class TextField extends React.Component {
     )
   }
 
-  id() {
-    return this.props.name
-  }
-
   hasValue() {
     return !!this.props.value
+  }
+
+  id() {
+    return this.props.id || this.props.name
   }
 
   input() {
@@ -61,6 +62,7 @@ export default class TextField extends React.Component {
       <input
         type={type}
         name={name}
+        id={this.id()}
         value={value}
         required={required}
         onChange={onChange}
