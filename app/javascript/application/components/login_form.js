@@ -56,8 +56,12 @@ class LoginForm extends React.Component {
               value={password}
               required
               onChange={e => this.setState({ password: e.target.value })}
-            />
-            <button type="submit">Log in</button>
+            >
+              <p className="hint">Forgot your password?</p>
+            </TextField>
+            <footer className="buttons">
+              <button type="submit">Log in</button>
+            </footer>
           </form>
           <section className="oauth">
             <p>…or log in with</p>

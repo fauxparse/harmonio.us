@@ -1,0 +1,81 @@
+.focused-label {
+  transform: translateY(0.5em) scale(0.75);
+}
+
+.field {
+  padding-top: 2em;
+  position: relative;
+
+  label {
+    @include ellipsis;
+    color: $secondary-text-color;
+    display: block;
+    font-weight: $base-font-weight;
+    left: 0;
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0.25em 0;
+    position: absolute;
+    top: 0;
+    transform: scale(1) translateY(2em);
+    transform-origin: 0 0;
+    transition: transform $base-duration $base-timing, color $base-duration $base-timing;
+  }
+
+  #{$all-text-inputs} {
+    background: none;
+    border: none;
+    border-bottom: $base-border;
+    border-radius: 0;
+    box-shadow: none;
+    line-height: 1.5em;
+    margin: 0 0 0.5em;
+    outline: none;
+    padding: 0.25em 0 calc(0.25em - 1px);
+  }
+
+  &.focused {
+    #{$all-text-inputs} {
+      padding-bottom: calc(0.25em - 2px);
+      border-bottom-color: $action-color;
+      border-bottom-width: 2px;
+    }
+
+    > label {
+      color: rgba($action-color, $primary-text-alpha);
+    }
+  }
+
+  &.filled > label,
+  &.focused > label {
+    @extend .focused-label;
+  }
+
+  > :-webkit-autofill ~ label {
+    @extend .focused-label;
+  }
+
+  .hint {
+    color: $secondary-text-color;
+    font-size: $small-font-size;
+    margin: 0 0 $small-spacing;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 10000s ease-in-out 10000s;
+}
+
+.buttons {
+  align-items: center;
+  display: flex;
+  margin: $base-spacing ($small-spacing / -2) $base-spacing;
+
+  #{$all-buttons},
+  [role='button'] {
+    margin: 0 ($small-spacing / 2);
+  }
+}

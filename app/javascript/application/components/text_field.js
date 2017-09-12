@@ -36,11 +36,11 @@ export default class TextField extends React.Component {
 
     return (
       <div className={className}>
+        {this.input()}
         {label &&
           <label htmlFor={this.id()}>
             {label}
           </label>}
-        {this.input()}
         {children}
       </div>
     )
