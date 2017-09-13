@@ -18,9 +18,7 @@ module Types
       description 'Logs the current user out'
 
       resolve ->(_obj, _args, ctx) {
-        UserSession
-          .new(ctx[:authenticator])
-          .logout
+        UserSession.new(ctx[:authenticator]).logout
       }
     end
 
@@ -34,6 +32,15 @@ module Types
         UserSession
           .new(ctx[:authenticator])
           .register(args[:name], args[:email], args[:password])
+      }
+    end
+
+    field :resetPassword, SessionType do
+      description 'Resets a user’s password'
+      argument :email, !types.String
+
+      resolve ->(_obj, args, ctx) {
+        UserSession.new(ctx[:authenticator]).reset_password(args[:email])
       }
     end
   end

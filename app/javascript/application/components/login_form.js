@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
           <form
             aria-hidden={page !== 'password'}
             disabled={page !== 'password'}
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => this._resetPassword(e)}
             ref={el => this._resize(el, 'password')}
           >
             <FormErrors
@@ -213,6 +213,12 @@ class LoginForm extends React.Component {
     const { name, email, password } = this.state
     e.preventDefault()
     await this.props.register(name, email, password)
+  }
+
+  _resetPassword = async e => {
+    const { email } = this.state
+    e.preventDefault()
+    await this.props.resetPassword(email)
   }
 
   _resize(el, page) {

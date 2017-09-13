@@ -33,6 +33,14 @@ en:
   login:
     failed: 'Sorry, we couldn’t log you in.'
 
+  passwords:
+    change:
+      submit: 'Change password'
+
+  user_mailer:
+    reset_password:
+      subject: 'Reset your password'
+
   activerecord:
     errors:
       models:

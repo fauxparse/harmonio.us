@@ -32,6 +32,13 @@ class UserSession
     self
   end
 
+  def reset_password(email)
+    user = User.find_by(email: email)
+    user.generate_reset_password_token!
+    UserMailer.reset_password(user).deliver_now
+    self
+  end
+
   private
 
   attr_reader :authenticator

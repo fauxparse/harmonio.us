@@ -55,6 +55,7 @@ end
 
 group :development do
   gem 'graphiql-rails'
+  gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
