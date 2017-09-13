@@ -7,6 +7,34 @@ import { Facebook, Google, Twitter } from '../icons'
 import Logo from './logo'
 import TextField from './text_field'
 
+const FormErrors = ({ errors, message }) =>
+  errors.length
+    ? errors.map(error =>
+        <p key={error}>
+          {error}
+        </p>
+      )
+    : <p>Enter your email address to reset your password.</p>
+
+const FormFooter = ({ buttonText, alternative, switchPage }) =>
+  <footer className="buttons">
+    <button type="submit">
+      {buttonText}
+    </button>
+    <span>
+      or&nbsp;
+      <a
+        href="#"
+        onClick={e => {
+          e.preventDefault()
+          switchPage()
+        }}
+      >
+        {alternative}
+      </a>
+    </span>
+  </footer>
+
 class LoginForm extends React.Component {
   static propTypes = {
     logIn: PropTypes.func.isRequired,
@@ -15,6 +43,7 @@ class LoginForm extends React.Component {
   }
 
   state = {
+    name: '',
     email: '',
     password: '',
     page: 'login',
@@ -23,7 +52,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { errors = [] } = this.props
-    const { email, password, page } = this.state
+    const { name, email, password, page } = this.state
     const loading = this.state.loading || this.props.loading
 
     return (
@@ -32,19 +61,38 @@ class LoginForm extends React.Component {
           loading={loading}
           onClick={() => this.setState({ loading: !loading })}
         />
-        <section className="forms" ref={el => this.pages = el}>
+        <section className="forms" ref={el => (this.pages = el)}>
+          <form
+            aria-hidden={page !== 'password'}
+            disabled={page !== 'password'}
+            onSubmit={e => e.preventDefault()}
+            ref={el => this._resize(el, 'password')}
+          >
+            <FormErrors
+              errors={errors}
+              message="Enter your email address to reset your password."
+            />
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              id="password-email"
+              value={email}
+              required
+              onChange={e => this.setState({ email: e.target.value })}
+            />
+            <FormFooter
+              buttonText="Reset password"
+              alternative="log in"
+              switchPage={this._switchPage('login')}
+            />
+          </form>
           <form
             aria-hidden={page !== 'login'}
             onSubmit={e => this._logIn(e)}
             ref={el => this._resize(el, 'login')}
           >
-            {errors.length
-              ? errors.map(error => (
-                  <p key={error}>
-                    {error}
-                  </p>
-                ))
-              : <p>Please log in to continue.</p>}
+            <FormErrors errors={errors} message="Please log in to continue." />
             <TextField
               label="Email"
               type="email"
@@ -64,45 +112,64 @@ class LoginForm extends React.Component {
               required
               onChange={e => this.setState({ password: e.target.value })}
             >
-              <p className="hint">Forgot your password?</p>
-            </TextField>
-            <footer className="buttons">
-              <button type="submit">Log in</button>
-              <span>
-                or&nbsp;
+              <p className="hint">
                 <a
                   href="#"
                   onClick={e => {
                     e.preventDefault()
-                    this.setState({ page: 'register' })
+                    this.setState({ page: 'password' })
                   }}
                 >
-                  register
+                  Forgot your password?
                 </a>
-              </span>
-            </footer>
+              </p>
+            </TextField>
+            <FormFooter
+              buttonText="Log in"
+              alternative="register"
+              switchPage={this._switchPage('register')}
+            />
           </form>
           <form
             aria-hidden={page !== 'register'}
             onSubmit={e => e.preventDefault()}
             ref={el => this._resize(el, 'register')}
           >
-            <p>Todo</p>
-            <footer className="buttons">
-              <button type="submit">Register</button>
-              <span>
-                or&nbsp;
-                <a
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault()
-                    this.setState({ page: 'login' })
-                  }}
-                >
-                  log in
-                </a>
-              </span>
-            </footer>
+            <FormErrors
+              errors={errors}
+              message="Let’s get you set up with an account."
+            />
+            <TextField
+              label="Name"
+              name="name"
+              id="register-name"
+              value={name}
+              required
+              onChange={e => this.setState({ name: e.target.value })}
+            />
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              id="register-email"
+              value={email}
+              required
+              onChange={e => this.setState({ email: e.target.value })}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              id="register-password"
+              value={password}
+              required
+              onChange={e => this.setState({ password: e.target.value })}
+            />
+            <FormFooter
+              buttonText="Register"
+              alternative="log in"
+              switchPage={this._switchPage('login')}
+            />
           </form>
         </section>
         <section className="oauth">
@@ -145,6 +212,10 @@ class LoginForm extends React.Component {
         this.pages && (this.pages.style.height = `${el.offsetHeight}px`)
       })
     }
+  }
+
+  _switchPage(page) {
+    return () => this.setState({ page })
   }
 }
 
