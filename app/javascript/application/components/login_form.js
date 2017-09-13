@@ -7,14 +7,17 @@ import { Facebook, Google, Twitter } from '../icons'
 import Logo from './logo'
 import TextField from './text_field'
 
-const FormErrors = ({ errors, message }) =>
-  errors.length
-    ? errors.map(error =>
-        <p key={error}>
-          {error}
-        </p>
-      )
-    : <p>Enter your email address to reset your password.</p>
+const FormErrors = ({ errors, message }) => (
+  <div>
+    {errors.length
+      ? errors.map(error =>
+          <p key={error}>
+            {error}
+          </p>
+        )
+      : <p>{message}</p>}
+  </div>
+)
 
 const FormFooter = ({ buttonText, alternative, switchPage }) =>
   <footer className="buttons">
@@ -132,7 +135,7 @@ class LoginForm extends React.Component {
           </form>
           <form
             aria-hidden={page !== 'register'}
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => this._register(e)}
             ref={el => this._resize(el, 'register')}
           >
             <FormErrors
@@ -204,6 +207,12 @@ class LoginForm extends React.Component {
     const { email, password } = this.state
     e.preventDefault()
     await this.props.logIn(email, password)
+  }
+
+  _register = async e => {
+    const { name, email, password } = this.state
+    e.preventDefault()
+    await this.props.register(name, email, password)
   }
 
   _resize(el, page) {

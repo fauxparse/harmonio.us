@@ -41,7 +41,12 @@ class Authentication extends React.Component {
       <div className="authentication">
         {user
           ? children
-          : <LoginForm logIn={this._logIn} loading={loading} errors={errors} />}
+          : <LoginForm
+              logIn={this._logIn}
+              register={this._register}
+              loading={loading}
+              errors={errors}
+            />}
       </div>
     )
   }
@@ -65,6 +70,21 @@ class Authentication extends React.Component {
     const { client } = this.props
     await client.mutate({ mutation: LOGOUT_MUTATION })
     client.resetStore()
+  }
+
+  _register = async (name, email, password) => {
+    const { client } = this.props
+    client.resetStore()
+    await client.mutate({
+      mutation: REGISTER_MUTATION,
+      variables: { name, email, password },
+      update: (store, { data: { register } }) => {
+        store.writeQuery({
+          query: SESSION_QUERY,
+          data: { session: register }
+        })
+      }
+    })
   }
 }
 
@@ -109,6 +129,15 @@ const LOGIN_MUTATION = gql`
 const LOGOUT_MUTATION = gql`
   mutation LogOutMutation {
     logOut {
+      ...SessionData
+    }
+  }
+  ${SESSION_FRAGMENT}
+`
+
+const REGISTER_MUTATION = gql`
+  mutation RegisterMutation($name:String!, $email:String!, $password:String!) {
+    register(name: $name, email: $email, password: $password) {
       ...SessionData
     }
   }

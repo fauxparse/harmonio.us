@@ -10,6 +10,7 @@ Layout/AlignParameters:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'app/graphql/**/*'
 
 Metrics/LineLength:
   IgnoredPatterns: ['\A\s*#']

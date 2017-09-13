@@ -23,5 +23,18 @@ module Types
           .logout
       }
     end
+
+    field :register, SessionType do
+      description 'Attempts to register a user'
+      argument :name, !types.String
+      argument :email, !types.String
+      argument :password, !types.String
+
+      resolve ->(_obj, args, ctx) {
+        UserSession
+          .new(ctx[:authenticator])
+          .register(args[:name], args[:email], args[:password])
+      }
+    end
   end
 end

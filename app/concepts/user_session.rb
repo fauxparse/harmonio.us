@@ -22,6 +22,16 @@ class UserSession
     self
   end
 
+  def register(name, email, password)
+    user = User.new(name: name, email: email, password: password)
+    if user.save
+      authenticator.auto_login(user)
+    else
+      @errors = user.errors.full_messages
+    end
+    self
+  end
+
   private
 
   attr_reader :authenticator

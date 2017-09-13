@@ -70,4 +70,40 @@ RSpec.describe UserSession do
       expect(session.errors).to be_empty
     end
   end
+
+  describe '#register' do
+    subject(:register) { session.register(name, email, password) }
+    let(:name) { Faker::Name.name }
+    let(:email) { Faker::Internet.email(name) }
+    let(:password) { Faker::Internet.password }
+
+    context 'when successful' do
+      before do
+        expect(authenticator)
+          .to receive(:auto_login)
+          .with(an_instance_of(User))
+      end
+
+      it { is_expected.to eq session }
+
+      it 'has no errors' do
+        register
+        expect(session.errors).to be_empty
+      end
+    end
+
+    context 'when unsuccessful' do
+      before do
+        create(:user, name: name, email: email, password: password)
+      end
+
+      it { is_expected.to eq session }
+
+      it 'has an error' do
+        expect(authenticator).not_to receive(:auto_login)
+        register
+        expect(session.errors).to have_exactly(1).item
+      end
+    end
+  end
 end
