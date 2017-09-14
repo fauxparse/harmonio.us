@@ -1,0 +1,139 @@
+.sidebar-container {
+  position: relative;
+}
+
+.sidebar {
+  background: $base-background-color;
+  border-right: $base-border;
+  height: 100vh;
+  max-width: 20em;
+  overflow-y: auto;
+  width: calc(100vw - #{$keyline} + 1em);
+
+  @include for-tablet-portrait-down {
+    @include position(fixed, 0em null 0em 0em);
+    @include z-depth-16dp;
+    border-right: 0;
+    transition: transform $enter-duration $sharp-timing, box-shadow $enter-duration $base-timing;;
+    z-index: 1;
+
+    [aria-hidden='true'] & {
+      border-right: 0;
+      box-shadow: none;
+      transform: translate(-100%);
+      transition: transform $leave-duration $sharp-timing, box-shadow $leave-duration $base-timing;
+    }
+  }
+
+  header {
+    border-bottom: $base-border;
+    padding: 1em;
+
+    .portrait {
+      @include size(2em);
+      background: material-color('grey', '200');
+      border-radius: 50%;
+      color: $secondary-text-color;
+      display: block;
+      font-size: 2em;
+      margin: 0 0 $small-spacing;
+      padding: 0.5em;
+
+      svg {
+        @include size(1em);
+        display: block;
+      }
+    }
+
+    p {
+      margin: 0;
+
+      b, span {
+        display: block;
+      }
+    }
+  }
+
+  section {
+    ul {
+      @include list;
+    }
+
+    a {
+      color: inherit;
+      outline: none;
+
+      &:focus {
+        background-color: $secondary-background-color;
+      }
+    }
+  }
+}
+
+.sidebar-overlay {
+  display: none;
+
+  @include for-tablet-portrait-down {
+    @include position(fixed, 0em 0em 0em 0em);
+    background: rgba(black, 0.25);
+    display: block;
+    transition: opacity $enter-duration $base-timing;
+
+    [aria-hidden='true'] & {
+      opacity: 0;
+      pointer-events: none;
+      touch-action: none;
+      transition: opacity $leave-duration $base-timing;
+    }
+  }
+}
+
+.hamburger {
+  @include position(absolute, 0.5rem null null calc(100% + 0.5em));
+  background: none;
+  border-radius: 50%;
+  color: $secondary-text-color;
+
+  &:hover {
+    background: none;
+  }
+
+  &:focus {
+    background: $secondary-background-color;
+    box-shadow: none;
+  }
+
+  svg,
+  path {
+    transition: transform $enter-duration $base-timing;
+  }
+
+  &[rel='back'] {
+    svg {
+      transform: rotate(180deg);
+    }
+
+    path:nth-child(1) {
+      transform: translate(-1px, 6px) rotate(45deg) scaleX(0.5);
+      transform-origin: 100% 50%;
+    }
+
+    path:nth-child(2) {
+      transform: scaleX((16 / 18));
+      transform-origin: 50% 50%;
+    }
+
+    path:nth-child(3) {
+      transform: translate(-1px, -6px) rotate(-45deg) scaleX(0.5);
+      transform-origin: 100% 50%;
+    }
+  }
+
+  @include for-tablet-landscape-up {
+    transition: transform $enter-duration $base-timing;
+
+    &[rel='menu'] {
+      transform: scale(0);
+    }
+  }
+}

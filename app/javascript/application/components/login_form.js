@@ -104,7 +104,6 @@ class LoginForm extends React.Component {
               value={email}
               required
               onChange={e => this.setState({ email: e.target.value })}
-              autoFocus
             />
             <TextField
               label="Password"

@@ -26,6 +26,14 @@ export default class TextField extends React.Component {
     focused: false
   }
 
+  componentDidMount() {
+    this._mounted = true;
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
   render() {
     const { type, name, value, label, children, required } = this.props
     const { focused } = this.state
@@ -77,8 +85,10 @@ export default class TextField extends React.Component {
     const { onFocus, onBlur } = this.props
 
     setTimeout(() => {
-      this.setState({ focused })
-      focused ? (onFocus && onFocus(e)) : (onBlur && onBlur(e))
+      if (this._mounted) {
+        this.setState({ focused })
+        focused ? (onFocus && onFocus(e)) : (onBlur && onBlur(e))
+      }
     })
   }
 }

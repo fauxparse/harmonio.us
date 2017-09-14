@@ -1,0 +1,6 @@
+.application {
+  @include position(fixed, 0rem 0rem 0rem 0rem);
+  align-items: stretch;
+  display: flex;
+  justify-content: stretch;
+}

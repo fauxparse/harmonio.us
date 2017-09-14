@@ -1,0 +1,45 @@
+$_list-avatar-size: $thumb-size;
+$_list-icon-size: $icon-size;
+
+@mixin list-item {
+  align-items: center;
+  display: flex;
+  padding: 0.5em 1em;
+
+  > span,
+  > a {
+    flex: 1;
+  }
+}
+
+@mixin list {
+  padding: 0.5em 0;
+  list-style: none;
+
+  li {
+    @include list-item;
+
+    > a:first-child:last-child {
+      @include list-item;
+      margin: -0.5em -1em;
+    }
+  }
+
+  svg {
+    @include size($_list-icon-size);
+    color: black;
+    opacity: $secondary-text-alpha;
+
+    &:first-child {
+      margin-right: calc(#{$keyline} - 1em - #{$_list-icon-size});
+    }
+  }
+
+  img {
+    @include size($_list-avatar-size);
+
+    &:first-child {
+      margin-right: calc(#{$keyline} - 1em - #{$_list-avatar-size});
+    }
+  }
+}

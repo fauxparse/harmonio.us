@@ -20,6 +20,7 @@ $thumb-size: 2.5em;
 $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 $keyline: 4.5rem;
+$icon-size: 1.5em;
 
 // Colors
 
@@ -32,8 +33,8 @@ $brand-colors: (
   twitter: #1da1f2
 );
 
-$base-background-color: material-color('grey', '100');
-$secondary-background-color: white;
+$base-background-color: white;
+$secondary-background-color: material-color('grey', '100');
 $primary-color: material-color($primary-color-name);
 $light-primary-color: material-color($primary-color-name, '100');
 $dark-primary-color: material-color($primary-color-name, '700');
@@ -84,6 +85,8 @@ $focus-outline-offset: 0px;
 // Animations
 $base-duration: 150ms;
 $slow-duration: 375ms;
+$enter-duration: 225ms;
+$leave-duration: 195ms;
 $stagger-interval: 20ms;
 $base-timing: cubic-bezier(0.4, 0.0, 0.2, 1);
 $deceleration-timing: cubic-bezier(0.0, 0.0, 0.2, 1);

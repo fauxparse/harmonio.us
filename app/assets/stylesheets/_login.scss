@@ -110,7 +110,7 @@
     }
   }
 
-  @media (min-width: 26rem) {
+  @include for-tablet-portrait-up {
     left: calc(50% - 16rem);
     padding-top: $keyline;
     width: 26rem;

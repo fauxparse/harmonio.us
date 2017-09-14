@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, Link } from 'react-router-dom'
 import { SessionShape } from './authentication'
+import Sidebar from './sidebar'
 import Teams from './teams'
 
 export default class App extends React.Component {
@@ -16,17 +17,14 @@ export default class App extends React.Component {
 
     return (
       <div className="application">
-        <header>
-          <span>
-            {name || email}
-          </span>
-          <button onClick={session.logOut}>Log out</button>
-        </header>
-        <Switch>
-          <Route path="/teams" component={Teams} />
-          <Redirect from="/" to="/teams" />
-          <Redirect to="/" />
-        </Switch>
+        <Sidebar />
+        <main>
+          <Switch>
+            <Route path="/teams" component={Teams} />
+            <Redirect from="/" to="/teams" />
+            <Redirect to="/" />
+          </Switch>
+        </main>
       </div>
     )
   }
