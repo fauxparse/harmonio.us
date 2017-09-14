@@ -19,10 +19,21 @@ module Types
 
     field :team, TeamType do
       description 'A team'
-      argument :id, types.ID
+      argument :id, types.String
       resolve ->(_obj, args, ctx) {
         user = ctx[:authenticator].current_user
         user && user.teams.find_by(slug: args[:id])
+      }
+    end
+
+    field :member, MemberType do
+      description 'A member'
+      argument :team, types.String
+      argument :id, types.String
+      resolve ->(_obj, args, ctx) {
+        user = ctx[:authenticator].current_user
+        team = user && user.teams.find_by(slug: args[:team])
+        team && team.members.find_by(slug: args[:id])
       }
     end
   end

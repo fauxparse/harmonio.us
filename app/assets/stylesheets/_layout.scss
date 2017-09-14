@@ -3,4 +3,11 @@
   align-items: stretch;
   display: flex;
   justify-content: stretch;
+
+  main {
+    background: $base-background-color;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
 }
