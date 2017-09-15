@@ -10,15 +10,19 @@ class TeamMembers extends React.Component {
 
     return (
       <section className="team-members">
-        <ul className="members">
-          {team && team.members.map(member => (
-            <li key={member.id}>
-              <Link to={`${url}/${member.slug}`}>
-                {member.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <header>
+        </header>
+        <section>
+          <ul className="members">
+            {team && team.members.map(member => (
+              <li key={member.id}>
+                <Link to={`${url}/${member.slug}`}>
+                  {member.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </section>
     )
   }

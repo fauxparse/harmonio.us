@@ -90,10 +90,11 @@
 }
 
 .hamburger {
-  @include position(absolute, 0.5rem null null calc(100% + 0.5em));
+  @include position(absolute, 0.25rem null null calc(100% + 0.25em));
   background: none;
   border-radius: 50%;
-  color: $secondary-text-color;
+  color: black;
+  opacity: $secondary-text-alpha;
 
   &:hover {
     background: none;
@@ -102,6 +103,10 @@
   &:focus {
     background: $secondary-background-color;
     box-shadow: none;
+  }
+
+  svg {
+    display: block;
   }
 
   svg,

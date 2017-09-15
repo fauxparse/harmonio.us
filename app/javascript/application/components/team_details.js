@@ -9,7 +9,11 @@ export default class TeamDetails extends React.Component {
 
     return (
       <section className="team-details">
-        <Link to={`${url}/members`}>Members</Link>
+        <header>
+        </header>
+        <section>
+          <Link to={`${url}/members`}>Members</Link>
+        </section>
       </section>
     )
   }

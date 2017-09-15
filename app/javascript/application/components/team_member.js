@@ -10,7 +10,11 @@ class TeamMember extends React.Component {
 
     return (
       <section className="team-member">
-        <h1>{member && member.name}</h1>
+        <header>
+        </header>
+        <section>
+          <h1>{member && member.name}</h1>
+        </section>
       </section>
     )
   }

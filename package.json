@@ -13,7 +13,8 @@
     "react-apollo": "^1.4.15",
     "react-dom": "^15.6.1",
     "react-feather": "^1.0.7",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.7.1"

@@ -11,3 +11,77 @@
     position: relative;
   }
 }
+
+.main-section {
+  @include position(absolute, 0rem 0rem 0rem 0rem);
+
+  > section {
+    @include position(absolute, 0rem 0rem 0rem 0rem);
+    align-items: stretch;
+    background: $base-background-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+
+    > header {
+      border-bottom: $base-border;
+      height: $header-height;
+    }
+
+    > section {
+      flex: 1;
+    }
+  }
+}
+
+.slide-left-enter,
+.slide-left-exit ~ .slide-right-enter,
+.slide-left-exit ~ .fade-enter {
+  transform: translateX(100%);
+}
+
+.slide-left-enter-active,
+.slide-left-exit-active ~ .slide-right-enter-active,
+.slide-left-exit-active ~ .fade-enter-active {
+  transform: translateX(0%);
+  transition: transform $slow-duration $base-timing;
+}
+
+.slide-left-exit,
+.slide-left-enter ~ .slide-right-exit,
+.slide-left-enter ~ .fade-exit {
+  transform: translateX(0%);
+}
+
+.slide-left-exit-active,
+.slide-left-enter-active ~ .slide-right-exit-active,
+.slide-left-enter-active ~ .fade-exit-active {
+  transform: translateX(-100%);
+  transition: transform $slow-duration $base-timing;
+}
+
+.slide-right-enter,
+.slide-right-exit ~ .slide-left-enter,
+.slide-right-exit ~ .fade-enter {
+  transform: translateX(-100%);
+}
+
+.slide-right-enter-active,
+.slide-right-exit-active ~ .slide-left-enter-active,
+.slide-right-exit-active ~ .fade-enter-active {
+  transform: translateX(0%);
+  transition: transform $slow-duration $base-timing;
+}
+
+.slide-right-exit,
+.slide-right-enter ~ .slide-left-exit,
+.slide-right-enter ~ .fade-exit {
+  transform: translateX(0%);
+}
+
+.slide-right-exit-active,
+.slide-right-enter-active ~ .slide-left-exit-active,
+.slide-right-enter-active ~ .fade-exit-active {
+  transform: translateX(100%);
+  transition: transform $slow-duration $base-timing;
+}

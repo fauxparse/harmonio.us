@@ -10,14 +10,19 @@ class TeamList extends React.Component {
 
     return (
       <section className="team-list">
-        <ul className="teams">
-          {!loading &&
-            teams.map(({ id, name, slug }) => (
-              <li key={id}>
-                <Link to={`${path}/${slug}`}>{name}</Link>
-              </li>
-            ))}
-        </ul>
+        <header />
+        <section>
+          <ul className="teams">
+            {!loading &&
+              teams.map(({ id, name, slug }) =>
+                <li key={id}>
+                  <Link to={`${path}/${slug}`}>
+                    {name}
+                  </Link>
+                </li>
+              )}
+          </ul>
+        </section>
       </section>
     )
   }
