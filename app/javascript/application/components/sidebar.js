@@ -9,6 +9,7 @@ import {
   Teams as TeamsIcon,
   User as UserIcon
 } from '../icons'
+import Avatar from './avatar'
 
 const MenuButton = ({ history, location, onOpenSidebar }) => {
   const back = location.pathname.split('/').slice(0, -1).join('/')
@@ -49,9 +50,7 @@ class Sidebar extends React.Component {
       <div className="sidebar-container" aria-hidden={!open}>
         <aside className="sidebar">
           <header>
-            <div className="portrait">
-              <UserIcon />
-            </div>
+            <Avatar className="portrait" />
             <p>
               {name && <b>{name}</b>}
               <span>{email}</span>

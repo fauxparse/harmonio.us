@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { graphql, gql } from 'react-apollo'
 import { Route, Link } from 'react-router-dom'
+import { Teams as TeamIcon } from '../icons'
 
 class TeamList extends React.Component {
   render() {
@@ -10,14 +11,17 @@ class TeamList extends React.Component {
 
     return (
       <section className="team-list">
-        <header />
+        <header>
+          <h2>Teams</h2>
+        </header>
         <section>
           <ul className="teams">
             {!loading &&
               teams.map(({ id, name, slug }) =>
                 <li key={id}>
                   <Link to={`${path}/${slug}`}>
-                    {name}
+                    <div className="avatar"><TeamIcon /></div>
+                    <span>{name}</span>
                   </Link>
                 </li>
               )}

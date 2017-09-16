@@ -1,0 +1,15 @@
+.avatar {
+  @include size($thumb-size);
+  background: material-color('grey', '200');
+  border-radius: 50%;
+  color: $secondary-text-color;
+  display: block;
+  padding: (($thumb-size - $icon-size) / 2);
+
+  svg {
+    @include size($icon-size);
+    color: black;
+    display: block;
+    opacity: $secondary-text-alpha;
+  }
+}

@@ -31,19 +31,8 @@
     padding: 1em;
 
     .portrait {
-      @include size(2em);
-      background: material-color('grey', '200');
-      border-radius: 50%;
-      color: $secondary-text-color;
-      display: block;
       font-size: 2em;
       margin: 0 0 $small-spacing;
-      padding: 0.5em;
-
-      svg {
-        @include size(1em);
-        display: block;
-      }
     }
 
     p {
@@ -58,15 +47,6 @@
   section {
     ul {
       @include list;
-    }
-
-    a {
-      color: inherit;
-      outline: none;
-
-      &:focus {
-        background-color: $secondary-background-color;
-      }
     }
   }
 }
@@ -90,24 +70,8 @@
 }
 
 .hamburger {
-  @include position(absolute, 0.25rem null null calc(100% + 0.25em));
-  background: none;
-  border-radius: 50%;
-  color: black;
-  opacity: $secondary-text-alpha;
-
-  &:hover {
-    background: none;
-  }
-
-  &:focus {
-    background: $secondary-background-color;
-    box-shadow: none;
-  }
-
-  svg {
-    display: block;
-  }
+  @include position(absolute, 0.5rem null null calc(100% + 0.5em));
+  @include icon-button;
 
   svg,
   path {

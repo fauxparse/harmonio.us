@@ -1,0 +1,17 @@
+.team-list {
+  .teams {
+    @include list;
+  }
+}
+
+.team-details {
+  .team-actions {
+    @include list;
+  }
+}
+
+.team-members {
+  .members {
+    @include list;
+  }
+}

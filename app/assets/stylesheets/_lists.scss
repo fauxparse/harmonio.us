@@ -10,6 +10,15 @@ $_list-icon-size: $icon-size;
   > a {
     flex: 1;
   }
+
+  > a {
+    color: inherit;
+    outline: none;
+
+    &:focus {
+      background-color: $secondary-background-color;
+    }
+  }
 }
 
 @mixin list {
@@ -35,7 +44,8 @@ $_list-icon-size: $icon-size;
     }
   }
 
-  img {
+  img,
+  .avatar {
     @include size($_list-avatar-size);
 
     &:first-child {

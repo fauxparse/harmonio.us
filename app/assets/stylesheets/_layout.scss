@@ -24,8 +24,26 @@
     justify-content: stretch;
 
     > header {
+      align-items: center;
       border-bottom: $base-border;
+      display: flex;
       height: $header-height;
+      justify-content: stretch;
+      padding: 0.5em 0.5em 0.5em $keyline;
+
+      h2 {
+        flex: 1;
+        margin: 0;
+        text-align: left;
+
+        &:last-child {
+          margin-right: $keyline - 0.5rem;
+        }
+      }
+
+      button {
+        @include icon-button;
+      }
     }
 
     > section {

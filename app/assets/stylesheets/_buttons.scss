@@ -1,0 +1,22 @@
+@mixin icon-button {
+  @include size($thumb-size);
+  background: none;
+  border-radius: 50%;
+  color: black;
+  padding: ($thumb-size - $icon-size) / 2;
+
+  &:hover {
+    background: none;
+  }
+
+  &:focus {
+    background: $secondary-background-color;
+    box-shadow: none;
+  }
+
+  svg {
+    @include size($icon-size);
+    display: block;
+    opacity: $secondary-text-alpha;
+  }
+}

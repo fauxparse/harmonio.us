@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { graphql, gql } from 'react-apollo'
 import { Link } from 'react-router-dom'
+import Avatar from './avatar'
 
 class TeamMembers extends React.Component {
   render() {
@@ -11,13 +12,15 @@ class TeamMembers extends React.Component {
     return (
       <section className="team-members">
         <header>
+          <h2>Team members</h2>
         </header>
         <section>
           <ul className="members">
             {team && team.members.map(member => (
               <li key={member.id}>
                 <Link to={`${url}/${member.slug}`}>
-                  {member.name}
+                  <Avatar member={member} />
+                  <span>{member.name}</span>
                 </Link>
               </li>
             ))}

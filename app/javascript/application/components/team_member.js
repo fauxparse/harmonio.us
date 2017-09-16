@@ -3,17 +3,25 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { graphql, gql } from 'react-apollo'
 import { Link } from 'react-router-dom'
+import { Edit, Done } from '../icons'
+import TextField from './text_field'
 
 class TeamMember extends React.Component {
+  state = {
+    editing: false
+  }
+
   render() {
     const { data: { loading, member }, match: { path } } = this.props
+    const { editing } = this.state
 
     return (
       <section className="team-member">
         <header>
+          <h2>{member && member.name}</h2>
+          {editing ? <button><Done /></button> : <button><Edit /></button>}
         </header>
         <section>
-          <h1>{member && member.name}</h1>
         </section>
       </section>
     )
