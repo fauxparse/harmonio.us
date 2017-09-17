@@ -43,5 +43,22 @@ module Types
         UserSession.new(ctx[:authenticator]).reset_password(args[:email])
       }
     end
+
+    field :renameMember, MemberType do
+      description 'Renames a member'
+      argument :team, !types.String
+      argument :id, !types.String
+      argument :name, !types.String
+
+      resolve ->(_obj, args, ctx) {
+        UserSession.new(ctx[:authenticator])
+          .user
+          .teams
+          .find_by(slug: args[:team])
+          .members
+          .find_by(slug: args[:id])
+          .tap { |member| member.update!(name: args[:name]) }
+      }
+    end
   end
 end
