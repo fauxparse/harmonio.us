@@ -4,6 +4,6 @@ module Types
     field :id, !types.ID
     field :name, types.String
     field :email, !types.String
-    field :memberships, !types[MembershipType]
+    field :memberships, !types[MemberType]
   end
 end

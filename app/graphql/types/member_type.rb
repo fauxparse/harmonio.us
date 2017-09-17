@@ -10,5 +10,6 @@ module Types
         member.registered?
       }
     end
+    field :team, !TeamType
   end
 end

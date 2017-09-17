@@ -25,16 +25,5 @@ module Types
         user && user.teams.find_by(slug: args[:id])
       }
     end
-
-    field :member, MemberType do
-      description 'A member'
-      argument :team, types.String
-      argument :id, types.String
-      resolve ->(_obj, args, ctx) {
-        user = ctx[:authenticator].current_user
-        team = user && user.teams.find_by(slug: args[:team])
-        team && team.members.find_by(slug: args[:id])
-      }
-    end
   end
 end

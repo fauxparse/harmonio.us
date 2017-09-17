@@ -7,7 +7,10 @@ import Avatar from './avatar'
 
 class TeamMembers extends React.Component {
   render() {
-    const { data: { loading, team }, match: { path, url } } = this.props
+    const {
+      data: { loading, team: { members = [] } = {} },
+      match: { path, url }
+    } = this.props
 
     return (
       <section className="team-members">
@@ -16,7 +19,7 @@ class TeamMembers extends React.Component {
         </header>
         <section>
           <ul className="members">
-            {team && team.members.map(member => (
+            {members.map(member => (
               <li key={member.id}>
                 <Link to={`${url}/${member.slug}`}>
                   <Avatar member={member} />
@@ -34,10 +37,6 @@ class TeamMembers extends React.Component {
 const TEAM_MEMBERS_QUERY = gql`
   query TeamMembersQuery($id: String!) {
     team(id: $id) {
-      id
-      name
-      slug
-
       members {
         id
         name

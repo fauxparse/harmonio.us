@@ -12,14 +12,25 @@ class TeamMember extends React.Component {
   }
 
   render() {
-    const { data: { loading, member }, match: { path } } = this.props
+    const {
+      data: { loading, team: { member } = {} },
+      match: { path }
+    } = this.props
     const { editing } = this.state
 
     return (
       <section className="team-member">
         <header>
           <h2>{member && member.name}</h2>
-          {editing ? <button><Done /></button> : <button><Edit /></button>}
+          {editing ? (
+            <button>
+              <Done />
+            </button>
+          ) : (
+            <button>
+              <Edit />
+            </button>
+          )}
         </header>
         <section>
           <button onClick={() => this.rename()}>Change</button>
@@ -59,15 +70,17 @@ const TEAM_MEMBER_FRAGMENT = gql`
 
 const TEAM_MEMBER_QUERY = gql`
   query TeamMemberQuery($team: String!, $id: String!) {
-    member(team: $team, id: $id) {
-      ...memberDetails
+    team(id: $team) {
+      member(id: $id) {
+        ...memberDetails
+      }
     }
   }
   ${TEAM_MEMBER_FRAGMENT}
 `
 
 const RENAME_MUTATION = gql`
-  mutation RenameMemberMutation($team:String!, $id:String!, $name:String!) {
+  mutation RenameMemberMutation($team: String!, $id: String!, $name: String!) {
     renameMember(team: $team, id: $id, name: $name) {
       id
       name

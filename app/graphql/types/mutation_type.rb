@@ -51,7 +51,8 @@ module Types
       argument :name, !types.String
 
       resolve ->(_obj, args, ctx) {
-        UserSession.new(ctx[:authenticator])
+        UserSession
+          .new(ctx[:authenticator])
           .user
           .teams
           .find_by(slug: args[:team])
