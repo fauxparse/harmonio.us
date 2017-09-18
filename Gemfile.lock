@@ -86,6 +86,7 @@ GEM
     graphql (1.6.1)
     hashie (3.5.5)
     i18n (0.8.6)
+    ice_cube (0.16.2)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -292,6 +293,7 @@ DEPENDENCIES
   figaro
   graphiql-rails
   graphql
+  ice_cube
   jbuilder (~> 2.5)
   letter_opener
   listen (>= 3.0.5, < 3.2)

@@ -32,6 +32,7 @@ gem 'webpacker', '>= 3.0'
 
 gem 'figaro'
 gem 'graphql'
+gem 'ice_cube'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
