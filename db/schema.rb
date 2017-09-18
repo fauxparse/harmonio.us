@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913024345) do
+ActiveRecord::Schema.define(version: 20170918203654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "team_id"
+    t.string "name", limit: 128
+    t.string "slug", limit: 128
+    t.text "description"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer "duration", default: 3600
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["starts_at", "ends_at"], name: "index_events_on_starts_at_and_ends_at"
+    t.index ["team_id"], name: "index_events_on_team_id"
+  end
 
   create_table "identities", force: :cascade do |t|
     t.bigint "user_id"
@@ -57,10 +71,11 @@ ActiveRecord::Schema.define(version: 20170913024345) do
     t.string "reset_password_token"
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
-    t.index ["email"], name: "index_users_on_email"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
+  add_foreign_key "events", "teams", on_delete: :cascade
   add_foreign_key "identities", "users", on_delete: :cascade
   add_foreign_key "members", "teams", on_delete: :cascade
   add_foreign_key "members", "users", on_delete: :cascade
