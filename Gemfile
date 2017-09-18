@@ -50,6 +50,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_girl_rails', '~> 4.8.0'
   gem 'faker'
+  gem 'rspec'
   gem 'rspec-rails'
 end
 
@@ -68,6 +69,7 @@ end
 
 group :test do
   gem 'rspec-collection_matchers'
+  gem 'rspec-rainbow'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
 end
