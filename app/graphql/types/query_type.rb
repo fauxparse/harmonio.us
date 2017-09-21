@@ -22,7 +22,7 @@ module Types
       argument :id, types.String
       resolve ->(_obj, args, ctx) {
         user = ctx[:authenticator].current_user
-        user && user.teams.find_by(slug: args[:id])
+        user&.teams&.find_by(slug: args[:id])
       }
     end
   end
