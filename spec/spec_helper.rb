@@ -84,7 +84,12 @@ RSpec.configure do |config|
   #   # order dependency and want to debug it, you can fix the order by providing
   #   # the seed, which is printed after each run.
   #   #     --seed 1234
-  #   config.order = :random
+
+  # gets around Spring caching the seed value
+  # https://github.com/rails/spring/issues/113
+  config.seed = srand % 0xFFFF unless ARGV.any? { |arg| arg =~ /seed/ }
+  config.order = :random
+
   #
   #   # Seed global randomization in this process using the `--seed` CLI option.
   #   # Setting this allows you to use `--seed` to deterministically reproduce
