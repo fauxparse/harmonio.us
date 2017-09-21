@@ -26,6 +26,15 @@ RSpec.describe Event, type: :model do
       expect(schedule.end_time).to eq event.ends_at
     end
 
+    it 'can be updated' do
+      expect {
+        event.update!(schedule_attributes: { period: :week, interval: 2 })
+      }
+        .to change { event.reload.schedule.period }
+        .from(:once)
+        .to(:week)
+    end
+
     context 'for a weekly event' do
       let(:event) { create(:event, :weekly) }
 

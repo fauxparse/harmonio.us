@@ -24,6 +24,12 @@ describe Event::Schedule do
         expect(schedule.count).to eq 1
       end
     end
+
+    describe '#period' do
+      it 'is :once' do
+        expect(schedule.period).to eq :once
+      end
+    end
   end
 
   context 'for a repeating event' do
@@ -35,13 +41,19 @@ describe Event::Schedule do
       it { is_expected.to have_exactly(6).items }
 
       it 'contains only the times until the end of the range' do
-        expect(times).to eq (0..5).map { |n| event.starts_at + n.weeks }
+        expect(times).to eq((0..5).map { |n| event.starts_at + n.weeks })
       end
     end
 
     describe '#count' do
       it 'is nil' do
         expect(schedule.count).to be_nil
+      end
+    end
+
+    describe '#period' do
+      it 'is :week' do
+        expect(schedule.period).to eq :week
       end
     end
   end
@@ -55,7 +67,7 @@ describe Event::Schedule do
       it { is_expected.to have_exactly(5).items }
 
       it 'contains only the times until the end of the range' do
-        expect(times).to eq (0..4).map { |n| event.starts_at + n.weeks }
+        expect(times).to eq((0..4).map { |n| event.starts_at + n.weeks })
       end
     end
 
@@ -63,6 +75,22 @@ describe Event::Schedule do
       it 'is 5' do
         expect(schedule.count).to eq 5
       end
+    end
+
+    describe '#period' do
+      it 'is :week' do
+        expect(schedule.period).to eq :week
+      end
+    end
+  end
+
+  context 'when the start time is changed' do
+    let(:event) { create(:event, :weekly) }
+
+    it 'updates the schedule' do
+      expect { event.update(starts_at: event.starts_at + 1.day) }
+        .to change { event.schedule.start_time }
+        .by(1.day)
     end
   end
 end

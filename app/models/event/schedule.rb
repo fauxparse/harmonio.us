@@ -1,6 +1,10 @@
 class Event
   class Schedule
+    include ActiveModel::Dirty
+
     attr_reader :event
+
+    define_attribute_methods :period, :interval, :weekdays, :count
 
     def initialize(event, recurrence_rule = nil)
       @event = event
@@ -24,19 +28,25 @@ class Event
     end
 
     def period
-      recurrence_options[:every]
+      recurrence_options[:every] || :once
     end
 
-    def period=(period)
-      build_recurrence(every: period)
+    def period=(value)
+      period_will_change!
+      if value.to_sym == :once
+        @recurrence = nil
+      else
+        build_recurrence(every: value)
+      end
     end
 
     def interval
       recurrence_options[:interval] || 1
     end
 
-    def interval=(interval)
-      build_recurrence(interval: interval)
+    def interval=(value)
+      interval_will_change!
+      build_recurrence(interval: value)
     end
 
     def weekdays
@@ -46,10 +56,11 @@ class Event
       end
     end
 
-    def weekdays=(weekdays)
+    def weekdays=(value)
+      weekdays_will_change!
       case period
-      when :week then build_recurrence(on: Array(weekdays).flatten)
-      when :month then build_recurrence(day: weekdays)
+      when :week then build_recurrence(on: Array(value).flatten)
+      when :month then build_recurrence(day: value)
       end
     end
 
@@ -57,20 +68,25 @@ class Event
       repeating? ? recurrence_options[:total] : 1
     end
 
-    def count=(count)
-      build_recurrence(total: count)
+    def count=(value)
+      count_will_change!
+      build_recurrence(total: value)
     end
 
     def between(start, stop)
       if overlaps?(start, stop)
         if repeating?
-          recurrence.between(start...stop).to_a
+          recurrence.between(start.to_date...stop.to_date).to_a
         else
           [start_time]
         end
       else
         []
       end
+    end
+
+    def include?(time)
+      time == start_time || recurrence&.include?(time)
     end
 
     def overlaps?(start, stop)
@@ -83,18 +99,20 @@ class Event
 
     private
 
-    attr_reader :recurrence
+    def recurrence
+      @recurrence
+         &.starts(event.starts_at)
+         &.at(event.starts_at.strftime('%H:%M:%S'))
+    end
 
     def recurrence_options
-      recurrence&.to_h || {}
+      @recurrence&.to_h || {}
     end
 
     def build_recurrence(options = {})
       @recurrence =
         Montrose::Recurrence
         .new(recurrence_options.merge(options).reject { |_, v| v.nil? }.to_h)
-        .starts(event.starts_at)
-        .at(event.starts_at.strftime('%H:%M:%S'))
     end
 
     def load_recurrence_rule(rule)
@@ -103,6 +121,7 @@ class Event
         when Montrose::Recurrence then rule
         when String then Montrose::Recurrence.load(rule)
         end
+      build_recurrence if @recurrence
     end
   end
 end
