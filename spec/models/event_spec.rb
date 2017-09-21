@@ -5,7 +5,6 @@ RSpec.describe Event, type: :model do
 
   it { is_expected.to be_valid }
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:duration) }
   it {
     is_expected.to validate_numericality_of(:duration)
       .only_integer

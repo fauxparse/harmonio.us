@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe Event::Occurrences do
   subject(:occurrences) { event.occurrences }
+  let(:event) { create(:event) }
+
   let(:list) do
     occurrences.between(
       event.starts_at.beginning_of_day,
@@ -9,9 +11,21 @@ describe Event::Occurrences do
     )
   end
 
-  context 'for a single event' do
-    let(:event) { create(:event) }
+  describe '#on' do
+    it 'returns occurrences by day' do
+      expect(occurrences.on(event.starts_at.to_date))
+        .to eq list.first
+    end
+  end
 
+  describe '#reload' do
+    it 'reloads the saved association' do
+      expect(event.existing_occurrences).to receive(:reload)
+      occurrences.reload
+    end
+  end
+
+  context 'for a single event' do
     it 'has a single occurrence' do
       expect(list).to have_exactly(1).item
     end

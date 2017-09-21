@@ -1,10 +1,11 @@
+# rubocop:disable Metrics/ClassLength
 class Event
   class Schedule
     include ActiveModel::Dirty
 
     attr_reader :event
 
-    define_attribute_methods :period, :interval, :weekdays, :count
+    define_attribute_methods(:period, :interval, :weekdays, :count, :until)
 
     def initialize(event, recurrence_rule = nil)
       @event = event
@@ -15,15 +16,19 @@ class Event
       recurrence.present?
     end
 
+    def finite?
+      !repeating? || recurrence.finite?
+    end
+
     def start_time
       recurrence&.first || event.starts_at
     end
 
     def end_time
       if repeating?
-        recurrence.finite? ? (recurrence.to_a.last + event.duration) : nil
+        finite? ? (recurrence.to_a.last + event.duration) : nil
       else
-        start_time + (event.duration || 0)
+        start_time + event.duration
       end
     end
 
@@ -70,18 +75,30 @@ class Event
 
     def count=(value)
       count_will_change!
-      build_recurrence(total: value)
+      until_will_change! if self.until.present?
+      if value > 1
+        build_recurrence(total: value, until: nil)
+      else
+        @recurrence = nil
+      end
+    end
+
+    def until
+      recurrence_options[:until]
+    end
+
+    def until=(value)
+      until_will_change!
+      count_will_change! if count.present?
+      build_recurrence(until: value, count: nil)
     end
 
     def between(start, stop)
-      if overlaps?(start, stop)
-        if repeating?
-          recurrence.between(start.to_date...stop.to_date).to_a
-        else
-          [start_time]
-        end
+      return [] unless overlaps?(start, stop)
+      if repeating?
+        recurrence.between(start.to_date...stop.to_date).to_a
       else
-        []
+        [start_time]
       end
     end
 
@@ -116,11 +133,7 @@ class Event
     end
 
     def load_recurrence_rule(rule)
-      @recurrence =
-        case rule
-        when Montrose::Recurrence then rule
-        when String then Montrose::Recurrence.load(rule)
-        end
+      @recurrence = Montrose::Recurrence.load(rule) if rule
       build_recurrence if @recurrence
     end
   end
