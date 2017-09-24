@@ -16,6 +16,10 @@ class Event < ApplicationRecord
     presence: true,
     numericality: { only_integer: true, greater_than: 0 }
 
+  scope :between, ->(start, stop) {
+    where('starts_at < ? AND (ends_at IS NULL OR ends_at >= ?)', stop, start)
+  }
+
   def schedule
     @schedule ||= Schedule.new(self, recurrence_rule)
   end

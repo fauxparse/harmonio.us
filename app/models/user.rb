@@ -7,6 +7,7 @@ class User < ApplicationRecord
     dependent: :destroy,
     autosave: true
   has_many :teams, through: :memberships
+  has_many :events, through: :teams
 
   validates :name, length: { maximum: 128, allow_blank: true }
   validates :email,
