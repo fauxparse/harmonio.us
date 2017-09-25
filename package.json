@@ -8,6 +8,7 @@
     "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.5",
     "feather-icons": "^3.2.2",
+    "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-apollo": "^1.4.15",

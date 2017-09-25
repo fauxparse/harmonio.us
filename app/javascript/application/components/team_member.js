@@ -71,6 +71,7 @@ const TEAM_MEMBER_FRAGMENT = gql`
 const TEAM_MEMBER_QUERY = gql`
   query TeamMemberQuery($team: String!, $id: String!) {
     team(id: $team) {
+      id
       member(id: $id) {
         ...memberDetails
       }

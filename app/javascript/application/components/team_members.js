@@ -37,6 +37,7 @@ class TeamMembers extends React.Component {
 const TEAM_MEMBERS_QUERY = gql`
   query TeamMembersQuery($id: String!) {
     team(id: $id) {
+      id
       members {
         id
         name
