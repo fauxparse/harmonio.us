@@ -25,5 +25,17 @@ module Types
         user&.teams&.find_by(slug: args[:id])
       }
     end
+
+    field :calendar, types[OccurrenceType] do
+      description 'A user’s calendar'
+
+      argument :start, DateType
+      argument :stop, DateType
+
+      resolve ->(_obj, args, ctx) {
+        user = ctx[:authenticator].current_user
+        Calendar.new(user, args[:start], args[:stop]).to_a
+      }
+    end
   end
 end
