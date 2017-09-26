@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, Link } from 'react-router-dom'
 import { SessionShape } from './authentication'
 import Sidebar from './sidebar'
+import Events from './events'
 import Teams from './teams'
 
 export default class App extends React.Component {
@@ -20,8 +21,9 @@ export default class App extends React.Component {
         <Sidebar />
         <main>
           <Switch>
+            <Route path="/calendar" component={Events} />
             <Route path="/teams" component={Teams} />
-            <Redirect from="/" to="/teams" />
+            <Redirect from="/" to="/calendar" />
             <Redirect to="/" />
           </Switch>
         </main>

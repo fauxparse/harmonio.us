@@ -26,10 +26,11 @@ const networkInterface = createNetworkInterface({
 })
 const ID_GENERATORS = {
   __default: o => reject([o.__typename, o.id], isNil).join(':'),
-  Occurrence: o => `Occurrence:${o.event.id}:${o.startsAt}`
+  Occurrence: o =>
+    `Occurrence:${o.event.team.id}:${o.event.id}:${o.startsAt.substr(0, 10)}`
 }
 const dataIdFromObject = object =>
-  (ID_GENERATORS[object] || ID_GENERATORS.__default)(object)
+  (ID_GENERATORS[object.__typename] || ID_GENERATORS.__default)(object)
 const client = new ApolloClient({ networkInterface, dataIdFromObject })
 
 document.addEventListener('DOMContentLoaded', () => {

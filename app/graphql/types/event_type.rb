@@ -5,5 +5,6 @@ module Types
     field :name, !types.String
     field :slug, !types.String
     field :description, !types.String
+    field :team, !TeamType
   end
 end

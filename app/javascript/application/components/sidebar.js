@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, Link, withRouter } from 'react-router-dom'
 import { SessionShape } from './authentication'
 import {
+  Calendar as CalendarIcon,
   LogOut as LogOutIcon,
   Menu as MenuIcon,
   Teams as TeamsIcon,
@@ -58,6 +59,12 @@ class Sidebar extends React.Component {
           </header>
           <section>
             <ul>
+              <li>
+                <Link to="/calendar">
+                  <CalendarIcon />
+                  <span>Calendar</span>
+                </Link>
+              </li>
               <li>
                 <Link to="/teams">
                   <TeamsIcon />
