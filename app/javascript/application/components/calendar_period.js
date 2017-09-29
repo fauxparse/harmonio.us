@@ -12,8 +12,8 @@ class CalendarPeriod extends React.Component {
   state = {}
 
   render() {
-    const { style, data: { loading, calendar } } = this.props
-    const grouped = groupBy(calendar || [], o => o.startsAt.slice(0, 7))
+    const { style, data: { loading = false, calendar = [] } = {} } = this.props
+    const grouped = this.grouped()
 
     return (
       <div
@@ -22,34 +22,49 @@ class CalendarPeriod extends React.Component {
         ref={el => this.el = el}
       >
         {!loading &&
-          keys(grouped)
-            .sort()
-            .map(k => (
-              <Month key={k} month={moment(k + '-01')} events={grouped[k]} />
-            ))}
+          this.grouped().map(([key, events]) => (
+            <Month key={key} month={moment(key + '-01')} events={events} />
+          ))}
       </div>
     )
   }
 
-  componentDidMount() {
-    setTimeout(this.resized, 0)
+  grouped() {
+    if (!this._grouped) {
+      const { data: { calendar = [] } = {} } = this.props
+      const groupedEvents = groupBy(calendar, o => o.startsAt.slice(0, 7))
+      const grouped = this.months().reduce(
+        (result, month) => {
+          const key = month.format('YYYY-MM')
+          return { ...result, [key]: groupedEvents[key] || [] }
+        },
+        {}
+      )
+      this._grouped = keys(grouped).sort().map(k => [k, grouped[k]])
+    }
+    return this._grouped
+  }
+
+  months() {
+    if (!this._months) {
+      const { start, stop } = this.props
+      this._months = []
+
+      for (let d = start.clone(); d.isBefore(stop); d.add(1, 'month')) {
+        this._months.push(d.clone())
+      }
+    }
+    return this._months
   }
 
   componentWillReceiveProps(props) {
-    const { data: { loading, calendar }, onResize } = props
+    const { data: { loading = false, calendar = [] } = {}, onResize } = props
     const count = loading ? 0 : calendar.length
 
-    if (count != this.state.count) {
-      setTimeout(this.resized, 0)
-      this.setState({ count })
-    }
-  }
-
-  resized = () => {
-    if (this.el) {
-      this.props.onResize(this.el.offsetHeight)
-    } else {
-      setTimeout(this.resized, 20)
+    if (!loading && count != this.count) {
+      this._grouped = undefined
+      this.count = count
+      this.props.onResize(this.months().length * 36 + count * 60)
     }
   }
 }

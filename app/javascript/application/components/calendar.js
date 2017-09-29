@@ -34,12 +34,20 @@ export default class Calendar extends React.Component {
     const { origin } = this.state
     let totalHeight = 0
     let dates = []
-    for (let index = this.indexAt(offset), totalHeight = this.top(index) - offset; totalHeight < height; totalHeight += this.height(index), index++) {
-      dates.push([
-        origin.clone().add(index * INTERVAL, 'months'),
-        origin.clone().add(index * INTERVAL + INTERVAL, 'months'),
-        index
-      ])
+    let start = offset - height
+    let stop = offset + height * 1.5
+    let index = this.indexAt(start)
+    let startTime = origin.clone().add(index * INTERVAL, 'months')
+    let stopTime = startTime.clone().add(INTERVAL, 'months')
+
+    for (
+      let y = this.top(index) - offset;
+      y < stop;
+      (y += this.height(index)), index++
+    ) {
+      dates.push([startTime, stopTime, index])
+      startTime = stopTime.clone()
+      stopTime = startTime.clone().add(INTERVAL, 'months')
     }
     return dates
   }
@@ -67,6 +75,15 @@ export default class Calendar extends React.Component {
 
       mid = Math.floor((min + max) / 2)
     }
+
+    while (offset > this.top(mid) + this.height(mid)) {
+      mid++
+    }
+
+    while (offset < this.top(mid)) {
+      mid--
+    }
+
     return mid
   }
 
@@ -81,7 +98,7 @@ export default class Calendar extends React.Component {
   }
 
   height(index) {
-    return this.state.heights[index] || DEFAULT_HEIGHT
+    return this.state.heights[index] || this.props.height
   }
 
   resized(index, height) {
