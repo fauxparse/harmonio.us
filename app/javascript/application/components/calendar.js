@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import moment from 'moment-timezone'
 import CalendarPeriod from './calendar_period'
 
-const INTERVAL = 3
+const INTERVAL = 1
 const DEFAULT_HEIGHT = 96 * INTERVAL
 
-export default class Calendar extends React.Component {
+export default class Calendar extends React.PureComponent {
   constructor(props) {
     super(props)
     const origin = moment().startOf('month')
-    this.state = { origin, heights: {}, min: 0, max: 0 }
+    this.state = { origin, heights: {}, tops: { 0: 0 }, min: 0, max: 0 }
   }
 
   render() {
@@ -36,18 +36,14 @@ export default class Calendar extends React.Component {
     let dates = []
     let start = offset - height
     let stop = offset + height * 1.5
-    let index = this.indexAt(start)
-    let startTime = origin.clone().add(index * INTERVAL, 'months')
-    let stopTime = startTime.clone().add(INTERVAL, 'months')
+    let startIndex = this.indexAt(start)
+    let stopIndex = this.indexAt(stop)
+    let startTime = origin.clone().add(startIndex * INTERVAL, 'months')
 
-    for (
-      let y = this.top(index) - offset;
-      y < stop;
-      (y += this.height(index)), index++
-    ) {
-      dates.push([startTime, stopTime, index])
-      startTime = stopTime.clone()
+    for (let i = startIndex, stopTime; i <= stopIndex; i++) {
       stopTime = startTime.clone().add(INTERVAL, 'months')
+      dates.push([startTime, stopTime, i])
+      startTime = stopTime.clone()
     }
     return dates
   }
@@ -88,11 +84,15 @@ export default class Calendar extends React.Component {
   }
 
   top(index) {
-    if (index < 0) {
-      return this.top(index + 1) - this.height(index)
-    } else if (index == 0) {
+    const { tops } = this.state
+
+    // if (tops[index] !== undefined) {
+    //   return tops[index]
+    if (index === 0) {
       return 0
-    } else {
+    } else if (index < 0) {
+      return this.top(index + 1) - this.height(index)
+    } else if (index > 0) {
       return this.top(index - 1) + this.height(index - 1)
     }
   }
@@ -102,10 +102,21 @@ export default class Calendar extends React.Component {
   }
 
   resized(index, height) {
-    let { heights, min, max } = this.state
+    let { heights, min, max, tops } = this.state
     heights[index] = height
     min = Math.min(index, min)
     max = Math.max(index, max)
-    this.setState({ heights, min, max })
+
+    if (index < 0) {
+      for (let i = index; i >= min; i--) {
+        tops[i] = tops[i + 1] - this.height(i)
+      }
+    } else if (index > 0) {
+      for (let i = index + 1; i <= max; i++) {
+        tops[i] = tops[i - 1] + this.height(i + 1)
+      }
+    }
+
+    this.setState({ heights, tops, min, max })
   }
 }

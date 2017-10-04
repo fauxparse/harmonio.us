@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import groupBy from 'lodash/groupBy'
 import keys from 'lodash/keys'
 
-class CalendarEvent extends React.Component {
+class CalendarEvent extends React.PureComponent {
   render() {
     const { startsAt, endsAt, name, team } = this.props
 
@@ -25,7 +25,7 @@ class CalendarEvent extends React.Component {
   }
 }
 
-class CalendarEvents extends React.Component {
+class CalendarEvents extends React.PureComponent {
   render() {
     const { date, events } = this.props
 

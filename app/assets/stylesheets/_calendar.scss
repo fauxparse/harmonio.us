@@ -32,7 +32,6 @@
     transition: transform $base-duration $base-timing, opacity $base-duration $base-timing $slow-duration;
 
     .month {
-      min-height: 6rem;
       transition: transform $slow-duration $base-timing $base-duration;
     }
 

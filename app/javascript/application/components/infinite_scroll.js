@@ -1,13 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import throttle from 'lodash/throttle'
 
-export default class InfiniteScroll extends React.Component {
+export default class InfiniteScroll extends React.PureComponent {
   static propTypes = {
     children: PropTypes.func.isRequired
   }
 
   state = { offset: 0 }
+
+  constructor(props) {
+    super(props)
+    this._offset = 0
+    // this._refresh = throttle(() => this.refreshPosition(), 16)
+    this._refresh = () => this.refreshPosition()
+  }
 
   render() {
     const { children } = this.props
@@ -25,7 +33,7 @@ export default class InfiniteScroll extends React.Component {
       >
         <div
           className="infinite-scroll-content"
-          style={{ transform: `translateY(${-offset}px)` }}
+          ref={el => this.content = el}
         >
           {el && children({ offset, height })}
         </div>
@@ -58,19 +66,27 @@ export default class InfiniteScroll extends React.Component {
     }
 
     window.addEventListener('touchmove', this.dragMove)
-    window.addEventListener('touchend', this.dragEnd)
+    window.addEventListener('touchend', this.dragStop)
   }
 
   dragMove = e => {
     const { origin, initialOffset } = this.dragging
     const offset = origin - this.pageY(e) + initialOffset
-    requestAnimationFrame(() => {
-      this.setState({ offset })
-    })
+    this._offset = offset
+    this._refresh()
   }
 
   dragStop = e => {
     window.removeEventListener('touchmove', this.dragMove)
-    window.removeEventListener('touchend', this.dragEnd)
+    window.removeEventListener('touchend', this.dragStop)
+  }
+
+  refreshPosition() {
+    this.content.style.transform = `translateY(${-this._offset}px)`
+    clearTimeout(this._setOffset)
+    this._setOffset = setTimeout(
+      () => this.setState({ offset: this._offset }),
+      20
+    )
   }
 }

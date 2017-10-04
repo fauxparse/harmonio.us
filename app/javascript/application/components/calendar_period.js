@@ -8,7 +8,7 @@ import groupBy from 'lodash/groupBy'
 import keys from 'lodash/keys'
 import Month from './month'
 
-class CalendarPeriod extends React.Component {
+class CalendarPeriod extends React.PureComponent {
   state = {}
 
   render() {
@@ -61,10 +61,10 @@ class CalendarPeriod extends React.Component {
     const { data: { loading = false, calendar = [] } = {}, onResize } = props
     const count = loading ? 0 : calendar.length
 
-    if (!loading && count != this.count) {
+    if (!loading && count !== this.state.count) {
       this._grouped = undefined
-      this.count = count
-      this.props.onResize(this.months().length * 36 + count * 60)
+      onResize(this.months().length * 36 + count * 60)
+      this.setState({ count })
     }
   }
 }
